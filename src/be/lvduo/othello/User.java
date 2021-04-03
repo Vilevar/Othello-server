@@ -2,7 +2,7 @@ package be.lvduo.othello;
 
 import be.lvduo.othello.network.NetworkManager;
 
-public class User implements Comparable<User> {
+public class User {
 	
 	private NetworkManager manager;
 	private String name;
@@ -64,11 +64,6 @@ public class User implements Comparable<User> {
 		return this.inGame;
 	}
 
-	@Override
-	public int compareTo(User user) {
-		return user.getPoints() - this.getPoints();
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof User))

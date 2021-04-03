@@ -105,13 +105,20 @@ public class ServerPacketHandler implements ISPacketHandler {
 
 	@Override
 	public void hasPlaying(int x, int y) {
+		System.out.println("Receive action ("+x+"; "+y+")");
 		for(Game game : server.getGames()) {
 			User current = game.getUser(game.getCurrent());
-			if((game.u1.equals(user) || game.u2.equals(user))
-				&& current.equals(user)) {
-				Point pt = game.getUser(game.getPlayer(1)).equals(user)?new Point(x,(Board.HEIGHT-1)-y):new Point(x,y);
+			if((game.u1.equals(user) || game.u2.equals(user)) && current.equals(user)) {
+				System.out.println("Game found");
+				Point pt = game.getUser(game.getPlayer(1)).equals(user) ? new Point(x, (Board.HEIGHT-1) - y) : new Point(x, y);
 				game.play(pt);
-				try {game.getOther(user).getManager().sendPacket(new SPacketSendAction(x,y));} catch (Exception e) {e.printStackTrace();}
+				System.out.println("Played");
+				try {
+					game.getOther(user).getManager().sendPacket(new SPacketSendAction(x, y));
+					System.out.println("Sent");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				break;
 			}
 		}
