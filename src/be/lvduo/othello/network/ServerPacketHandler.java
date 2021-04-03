@@ -29,8 +29,9 @@ public class ServerPacketHandler implements ISPacketHandler {
 	
 	@Override
 	public void testName(String name) throws Exception {
-		if(this.user.getNickname() != null)
+		if(this.user.getNickname() != null) {
 			user.getManager().sendPacket(new SPacketName(false));
+		}
 		for(User p : server.getUsers()) {
 			if(name.equals(p.getNickname())) {
 				user.getManager().sendPacket(new SPacketName(false));
@@ -39,7 +40,7 @@ public class ServerPacketHandler implements ISPacketHandler {
 		}
 		user.setNickname(name);
 		user.getManager().sendPacket(new SPacketName(true));
-		
+		server.getUsers().add(user);
 	}
 
 	@Override
@@ -109,11 +110,11 @@ public class ServerPacketHandler implements ISPacketHandler {
 	public void hasPlaying(int x, int y) {
 		System.out.println("Receive action ["+user+"] ("+x+"; "+y+")");
 		for(Game game : server.getGames()) {
-			User current = game.getUser(game.getCurrent());
-			System.out.println("Test game "+game+" : u1"+game.u1+" u2"+game.u2+" current"+current);
-			if((game.u1.equals(user) || game.u2.equals(user)) && current.equals(user)) {
+			User current = game.getCurrent();
+			System.out.println("Test game "+game+" : u1"+game.getUsers().get(0)+" u2"+game.getUsers().get(1)+" current"+current);
+			if((game.getUsers().get(0).equals(user) || game.getUsers().get(1).equals(user)) && current.equals(user)) {
 				System.out.println("Good player");
-				Point pt = game.getUser(game.getPlayer(1)).equals(user) ? new Point(x, (Board.HEIGHT-1) - y) : new Point(x, y);
+				Point pt = game.getPlayer(1).equals(user) ? new Point(x, (Board.HEIGHT-1) - y) : new Point(x, y);
 				game.play(pt);
 				System.out.println("Played");
 				try {

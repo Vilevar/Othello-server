@@ -1,6 +1,7 @@
 package be.lvduo.othello;
 
 import be.lvduo.othello.network.NetworkManager;
+import be.lvduo.othello.player.Player;
 
 public class User {
 	
@@ -9,6 +10,7 @@ public class User {
 	private int victories;
 	private int defeats;
 	private boolean inGame;
+	private Player player;
 	
 	
 	public User(NetworkManager manager) {
@@ -16,6 +18,7 @@ public class User {
 		this.name = null;
 		this.victories = this.defeats = 0;
 		this.inGame = false;
+		this.player = null;
 	}
 	
 	public NetworkManager getManager() {
@@ -62,6 +65,14 @@ public class User {
 	
 	public boolean isInGame() {
 		return this.inGame;
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	
+	public Player getPlayer() {
+		return this.player;
 	}
 
 	@Override

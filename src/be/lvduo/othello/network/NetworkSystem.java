@@ -33,7 +33,6 @@ public class NetworkSystem {
 						channel.pipeline().addLast(manager);
 					//	networks.add(manager);
 						User user = new User(manager);
-						server.getUsers().add(user);
 						manager.setHandler(new ServerPacketHandler(user, server));
 						
 					}

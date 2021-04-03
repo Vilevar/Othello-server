@@ -22,7 +22,6 @@ import be.lvduo.othello.network.packets.SPacketRequest;
 import be.lvduo.othello.network.packets.SPacketSendAction;
 import be.lvduo.othello.network.packets.SPacketStartGame;
 import be.lvduo.othello.player.OnlinePlayer;
-import be.lvduo.othello.player.Player;
 
 public class Server {
 	
@@ -84,7 +83,7 @@ public class Server {
 		if(user.isInGame())
 			for(Game g : this.games) {
 				if(g.hasUser(user)) {
-					this.gameOver(g, user.equals(g.getUser(g.getPlayer(1)))? 0 : 1, true);
+					this.gameOver(g, user.equals(g.getPlayer(1))? 0 : 1, true);
 					break;
 				}
 			}
@@ -145,7 +144,7 @@ public class Server {
 			} catch (InterruptedException ie) {
 			}
 		}
-		User current = game.getUser(game.getCurrent());
+		User current = game.getCurrent();
 		try {
 			current.getManager().sendPacket(new SPacketBeginner());
 		} catch (Exception e) {
@@ -154,21 +153,21 @@ public class Server {
 	}
 
 	public void gameOver(Game game, int winner, boolean packet) {
-		if(winner != 2) {
-			Player w = game.getPlayer(winner);
-			Player l = game.getOther(w);
-			game.getUser(w).addVictories(1);
-			game.getUser(l).addDefeats(1);
+		if(0 <= winner && winner <= 1) {
+			User w = game.getPlayer(winner);
+			User l = game.getOther(w);
+			w.addVictories(1);
+			l.addDefeats(1);
 			if(packet) {
-				if(this.users.contains(game.getUser(w))) {
+				if(this.users.contains(w)) {
 					try {
-						game.getUser(w).getManager().sendPacket(new SPacketGameOver(true));
+						w.getManager().sendPacket(new SPacketGameOver(true));
 					} catch (Exception e) {
 					}
 				}
-				if(this.users.contains(game.getUser(l))) {
+				if(this.users.contains(l)) {
 					try {
-						game.getUser(l).getManager().sendPacket(new SPacketGameOver(false));
+						l.getManager().sendPacket(new SPacketGameOver(false));
 					} catch (Exception e) {
 					}
 				}
