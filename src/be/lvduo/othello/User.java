@@ -33,11 +33,11 @@ public class User implements Comparable<User> {
 	public double getRatio() {
 		if(this.victories == 0 && this.defeats == 0)
 			return 0;
-		return (this.victories / (this.victories + this.defeats));
+		return this.victories / (this.victories + this.defeats);
 	}
 	
 	public int getPoints() {
-		return (Math.max(0, (100*this.victories) - (50*this.defeats)));
+		return Math.max(0, 100*this.victories - 50*this.defeats);
 	}
 	
 	public int getVictories() {
@@ -66,7 +66,7 @@ public class User implements Comparable<User> {
 
 	@Override
 	public int compareTo(User user) {
-		return (user.getPoints() - this.getPoints());
+		return user.getPoints() - this.getPoints();
 	}
 	
 	@Override
@@ -74,6 +74,6 @@ public class User implements Comparable<User> {
 		if(!(obj instanceof User))
 			return false;
 		
-		return ((User) obj).getNickname().equalsIgnoreCase(this.name);
+		return ((User) obj).getNickname().equals(this.name);
 	}
 }

@@ -6,7 +6,7 @@ public class Main {
 	
 	public static Server server;
 	
-	private final static String host = "127.0.0.1";
+	private final static String host = "217.182.222.140";
 	private final static int port = 27585;
 	
 	public static void main(String[] args) throws Exception {

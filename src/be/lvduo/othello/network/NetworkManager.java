@@ -69,8 +69,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<ByteBuf> {
 	}
 	
 	public void sendPacket(Packet<?> packet) throws Exception {
-		System.out.println("Send packet type "+packet.getClass().getSimpleName());
 		this.channel.writeAndFlush(this.writePacket(packet));
+		System.out.println("Send packet type "+packet.getClass().getSimpleName()+" to "+handler.getUser().getNickname());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -82,8 +82,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<ByteBuf> {
 	//	if(index == 0) {
 	//		this.close(false);
 	//	} else {
-		System.out.println("Get packet type "+packets.get(index).getSimpleName());
 		Packet<ISPacketHandler> packet = (Packet<ISPacketHandler>) packets.get(index).newInstance();
+		System.out.println("Get packet type "+packets.get(index).getSimpleName()+" from "+handler.getUser().getNickname());
 		packet.read(buf, handler);
 	//	}
 	}

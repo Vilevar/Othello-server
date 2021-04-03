@@ -32,9 +32,9 @@ public class NetworkSystem {
 						channel.pipeline().addLast("timeout", new ReadTimeoutHandler(600));
 						channel.pipeline().addLast(manager);
 					//	networks.add(manager);
-						User player = new User(manager);
-						server.getUsers().add(player);
-						manager.setHandler(new ServerPacketHandler(player, server));
+						User user = new User(manager);
+						server.getUsers().add(user);
+						manager.setHandler(new ServerPacketHandler(user, server));
 						
 					}
 				}).bind(ip, port).sync().channel().closeFuture().syncUninterruptibly();

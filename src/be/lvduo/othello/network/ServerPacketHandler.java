@@ -127,7 +127,6 @@ public class ServerPacketHandler implements ISPacketHandler {
 				try {
 					server.getProposals().remove(user).getManager().sendPacket(new SPacketPlayerDenies(user.getNickname()));
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				

@@ -68,7 +68,7 @@ public class Server {
 			network.registerPacketType(SPacketSendAction.class);
 			network.registerPacketType(SPacketGameOver.class);
 			
-			network.start(this.host, this.port); // TODO
+			network.start(this.host, this.port);
 		}).start();
 		
 	}
@@ -84,7 +84,7 @@ public class Server {
 		if(user.isInGame())
 			for(Game g : this.games) {
 				if(g.hasUser(user)) {
-					this.gameOver(g, user.equals(g.getUser(g.getPlayer(1)))?0:1, true);
+					this.gameOver(g, user.equals(g.getUser(g.getPlayer(1)))? 0 : 1, true);
 					break;
 				}
 			}
@@ -92,7 +92,6 @@ public class Server {
 			try {
 				a.getManager().sendPacket(new SPacketPlayerList(this.users));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -131,18 +130,27 @@ public class Server {
 		}
 		
 		this.users.forEach(a -> {
-			if(a.isInGame() == false)
+			if(!a.isInGame()) {
 				try {
 					a.getManager().sendPacket(new SPacketPlayerList(this.users));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
 		});
 		
-		while(game == null)
-			try {Thread.sleep(1000*1/4);} catch (InterruptedException ie) {}
+		while(game == null) {
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException ie) {
+			}
+		}
 		User current = game.getUser(game.getCurrent());
-		try {current.getManager().sendPacket(new SPacketBeginner());} catch (Exception e) {e.printStackTrace();}
+		try {
+			current.getManager().sendPacket(new SPacketBeginner());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void gameOver(Game game, int winner, boolean packet) {
@@ -152,10 +160,18 @@ public class Server {
 			game.getUser(w).addVictories(1);
 			game.getUser(l).addDefeats(1);
 			if(packet) {
-				if(this.users.contains(game.getUser(w)))
-					try {game.getUser(w).getManager().sendPacket(new SPacketGameOver(true));} catch (Exception e) {}
-				if(this.users.contains(game.getUser(l)))
-					try {game.getUser(l).getManager().sendPacket(new SPacketGameOver(false));} catch (Exception e) {}
+				if(this.users.contains(game.getUser(w))) {
+					try {
+						game.getUser(w).getManager().sendPacket(new SPacketGameOver(true));
+					} catch (Exception e) {
+					}
+				}
+				if(this.users.contains(game.getUser(l))) {
+					try {
+						game.getUser(l).getManager().sendPacket(new SPacketGameOver(false));
+					} catch (Exception e) {
+					}
+				}
 			}
 		}
 		this.games.remove(game);
