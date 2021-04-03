@@ -84,8 +84,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<ByteBuf> {
 	
 	@Override
 	public void channelRead(ChannelHandlerContext arg0, Object arg1) throws Exception {
-		super.channelRead(arg0, arg1);
 		System.out.println("Reading something");
+		super.channelRead(arg0, arg1);
 	}
 	
 	@SuppressWarnings("unchecked")

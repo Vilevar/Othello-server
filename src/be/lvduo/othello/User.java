@@ -71,4 +71,9 @@ public class User {
 		
 		return ((User) obj).getNickname().equals(this.name);
 	}
+	
+	@Override
+	public String toString() {
+		return "[User "+name+"]";
+	}
 }

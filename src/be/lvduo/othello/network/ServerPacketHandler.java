@@ -54,6 +54,7 @@ public class ServerPacketHandler implements ISPacketHandler {
 				}
 			}
 		}
+		
 		for(User u : server.getUsers()) {
 			try {
 				u.getManager().sendPacket(new SPacketPlayerList(server.getUsers()));
@@ -106,11 +107,12 @@ public class ServerPacketHandler implements ISPacketHandler {
 
 	@Override
 	public void hasPlaying(int x, int y) {
-		System.out.println("Receive action ("+x+"; "+y+")");
+		System.out.println("Receive action ["+user+"] ("+x+"; "+y+")");
 		for(Game game : server.getGames()) {
 			User current = game.getUser(game.getCurrent());
+			System.out.println("Test game "+game+" : u1"+game.u1+" u2"+game.u2+" current"+current);
 			if((game.u1.equals(user) || game.u2.equals(user)) && current.equals(user)) {
-				System.out.println("Game found");
+				System.out.println("Good player");
 				Point pt = game.getUser(game.getPlayer(1)).equals(user) ? new Point(x, (Board.HEIGHT-1) - y) : new Point(x, y);
 				game.play(pt);
 				System.out.println("Played");

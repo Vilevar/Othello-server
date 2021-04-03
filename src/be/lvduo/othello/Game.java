@@ -87,6 +87,7 @@ public class Game {
 	}
 	
 	public Player toggleCurrent() {
+		Player current = this.current;
 		if(this.current == this.player1) {
 			this.current = this.player2;
 		} else if(this.current == this.player2) {
@@ -96,14 +97,15 @@ public class Game {
 		}
 		this.availableShots = null;
 		//you turn
+		System.out.println("Change current : from "+current+" to "+this.current);
 		return this.current;
 	}
 	
 	public Player getOther(Player p) {
-		return p.equals(this.player1)?this.player2:this.player1;
+		return p.equals(this.player1) ? this.player2 : this.player1;
 	}
 	public User getOther(User u) {
-		return u.equals(this.u1)?this.u2:this.u1;
+		return u.equals(this.u1) ? this.u2 : this.u1;
 	}
 	
 	public Player getCurrent() {
