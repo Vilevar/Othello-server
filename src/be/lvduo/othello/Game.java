@@ -65,7 +65,7 @@ public class Game {
 					nPlayer1++;
 			}
 		}
-		double halfAvailablePieces = ((double) (Board.WIDTH*Board.HEIGHT - nBlanks)) / 2.0;
+		double halfAvailablePieces = (Board.WIDTH*Board.HEIGHT - nBlanks) / 2.0;
 		if(nPlayer1 > halfAvailablePieces) {
 			this.winner = 0;
 		} else if(nPlayer1 == halfAvailablePieces) {
