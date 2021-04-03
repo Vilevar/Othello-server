@@ -29,7 +29,7 @@ public class Server {
 	private final String host;
 	private final int port;
 	
-	private static NetworkSystem network;
+	private NetworkSystem network;
 	
 	
 	private List<User> users = new ArrayList<>();
@@ -43,7 +43,6 @@ public class Server {
 	}
 	
 	public void start() {
-		
 		new Thread(() -> {
 			try {
 				Thread.sleep(16);
@@ -72,6 +71,11 @@ public class Server {
 			network.start(this.host, this.port); // TODO
 		}).start();
 		
+	}
+	
+	public void stop() {
+		System.out.println("Stopping the server...");
+		System.exit(0);
 	}
 	
 	public void userDisconnect(User user) {
