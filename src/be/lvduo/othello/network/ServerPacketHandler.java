@@ -47,12 +47,13 @@ public class ServerPacketHandler implements ISPacketHandler {
 		if(!server.getUsers().contains(user)) {
 			user.setStatus(isWaiting);
 			server.getUsers().add(user);
-		} else
+		} else {
 			for(User u : server.getUsers()) {
 				if(u.equals(this.user)) {
 					u.setStatus(isWaiting);
 				}
 			}
+		}
 		for(User u : server.getUsers()) {
 			try {
 				u.getManager().sendPacket(new SPacketPlayerList(server.getUsers()));
@@ -128,9 +129,9 @@ public class ServerPacketHandler implements ISPacketHandler {
 	@Override
 	public void getResponse(boolean response) {
 		if(server.getProposals().containsKey(user))
-			if(response)
+			if(response) {
 				server.newGame(user, server.getProposals().get(user));
-			else {
+			} else {
 				try {
 					server.getProposals().remove(user).getManager().sendPacket(new SPacketPlayerDenies(user.getNickname()));
 				} catch (Exception e) {

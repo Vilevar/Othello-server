@@ -7,6 +7,8 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 public class NetworkManager extends SimpleChannelInboundHandler<ByteBuf> {
 	
@@ -69,8 +71,21 @@ public class NetworkManager extends SimpleChannelInboundHandler<ByteBuf> {
 	}
 	
 	public void sendPacket(Packet<?> packet) throws Exception {
-		System.out.println(this.channel.writeAndFlush(this.writePacket(packet)).isSuccess());
+		this.channel.writeAndFlush(this.writePacket(packet)).sync().addListener(new GenericFutureListener<Future<? super Void>>() {
+
+			@Override
+			public void operationComplete(Future<? super Void> f) throws Exception {
+				System.out.println("Packet type "+packet.getClass().getSimpleName()+" sent to "+handler.getUser().getNickname()+" "+f.isSuccess());
+			}
+			
+		});
 		System.out.println("Send packet type "+packet.getClass().getSimpleName()+" to "+handler.getUser().getNickname());
+	}
+	
+	@Override
+	public void channelRead(ChannelHandlerContext arg0, Object arg1) throws Exception {
+		super.channelRead(arg0, arg1);
+		System.out.println("Reading something");
 	}
 	
 	@SuppressWarnings("unchecked")
